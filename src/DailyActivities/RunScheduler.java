@@ -6,7 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-
+        //IMPORTANT NOTICE: This is based off of a 24-hour clock. So no AM and PM times
+            //Example: When its 2PM it should be entered as 14 hr and so on until 23
 
 
 public class RunScheduler {
@@ -74,8 +75,6 @@ public class RunScheduler {
                                             // Utilities for this class.
                                     //Includes validation, user input, user choices (like 1 or 0 for yes or no questions)
     private int pickTaskType(){
-
-
         System.out.println("What type of task would you like to enter?");
         System.out.println("Choices:\n"
                             + "1. Appointment\n"
@@ -156,7 +155,6 @@ public class RunScheduler {
         optionalSubjectInput = -1;
         optionalEnterMore = -1;
         optionToDisplayTasks = -1;
-
     }
 
 
@@ -172,9 +170,6 @@ public class RunScheduler {
                     System.out.println(task.getDateEntered());
                 }
             }
-
-
-
         }
     }
     private void displayTasks(ArrayList<Task> tasks){   //This method is crucial as it displays the results of what the user entered
@@ -250,13 +245,12 @@ public class RunScheduler {
                 taskNo++;
                 System.out.println();
 
-
-
-
             }
-
     }
-            //methods below that return boolean will be used to check if the task has any of these characteristics
+
+
+
+           // ****  methods below that return boolean will be used to check if the task has any of these characteristics  *** \\
     public boolean hasEndDate(){
         return endDate !=null && !endDate.isEmpty();
     }
@@ -355,7 +349,7 @@ public class RunScheduler {
                 System.out.println("At what minute does " + name + " start?");
                 startMin = input.nextInt();
 
-                if (startMin < 60 && startMin >= 00) {    //Checks if the the user entered in int in range of 24 hour clock hours
+                if (startMin < 60 && startMin >= 00) {    //Checks if the user entered in int in range of 24 hour clock hours
                     valid = true;   //valid
 
                 } else {  //if the user enters an invalid hour
@@ -465,21 +459,22 @@ public class RunScheduler {
         enterAppointmentNote();
         //Create if statements for all possibilities of appointment. The user couldve said they don't want to enter endTime or location or note
         //This probably could be done in a separate method
+
+
         if (optionalEndTime == 1 && optionalLocInput == 1 && optionalNoteInput == 1){   //If the user chooses to enter all the options
             tasks.add(new Appointment(name,date,startHr,startMin,endHr,endMin,location,note));
         }
         else if (optionalEndTime == 1 && optionalLocInput ==1){ //If the user  chooses to input end time and location
             tasks.add(new Appointment(name,date,startHr,startMin,endHr,endMin,location));
-
         }
         else if (optionalEndTime == 1 ){    //If the user chose to input only optional end time
             tasks.add(new Appointment(name, date, startHr, startMin, endHr, endMin));
         }
-        else if (optionalEndTime < 1 && optionalLocInput == 1){ //If the user chose to input only location
+        else if ((optionalEndTime < 1 && optionalLocInput == 1) && optionalNoteInput < 1){ //If the user chose to input only location and not endTime or note
             tasks.add(new Appointment(name,date,startHr,startMin,location));
         }
-        else if (optionalEndTime < 1 && optionalLocInput == 1 && optionalNoteInput == 1){
-            tasks.add(new Appointment(name,date,startHr,startMin,location,note));
+        else if (optionalLocInput == 1 && optionalNoteInput == 1){
+            tasks.add(new Appointment(name,date,startHr,startMin,location,note));   //creating an object with a note in it
         }
         else if(optionalEndTime < 1 && optionalLocInput < 1){   //if the user doesn't want to enter location or end time or note
             tasks.add(new Appointment(name,date,startHr,startMin)); //most basic option
@@ -530,13 +525,12 @@ public class RunScheduler {
         System.out.println("Would you like to enter the end time for " + name + "? 1=Yes 0=No");
         optionalEndTime = enterValidYesOrNo();  //This checks if the user entered yer or no (with validation)
         enterValidEndHour();    //This method has the user enter the hour if they said yes to entering end time
-
         enterValidEndMin();
     }
 
     public void enterAppointmentLocation(){
         optionalLocInput = -1;
-        location = "";
+        location = null;
         System.out.println("Would you like to enter the appointment location? 1=Yes 0=No");
         optionalLocInput = enterValidYesOrNo();
 
@@ -559,6 +553,7 @@ public class RunScheduler {
                 note = userInput.nextLine();
             }
         }
+
     }
 
 

@@ -1,10 +1,10 @@
 package DailyActivities;
 
-public class AssignmentDue extends Task{        //This class will extend Task
+public class AssignmentDue extends Task{
+    public boolean hasTime;        //This class will extend Task
 
     int hour, minute;
     String subjectWithAssignmentDue;
-    boolean hasTime;
     public AssignmentDue(String name, String date, int hr, int min, String subject){
         super(name, date);
         hour = hr;

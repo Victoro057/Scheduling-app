@@ -50,15 +50,47 @@ public class Task extends TimeTakenOfDay {
                 System.out.println("End time is " + getEndHour() + ":" + getEndMinute());
             }
         }
+
+        //Good idea to incorporate tha same user interaction and display accuracy as with displayTheTaskTimeWithoutEndTime() method
     }
     public void displayTheTaskTimeWithoutEndTime(){
-        if (validTimeOfDayEnteredNoEnd(startHour, startMinute) && startMinute ==0) {
+        if (validTimeOfDayEnteredNoEnd(startHour,startMinute) && (checkIfStartHrLessThanTen() && !checkIfStartHrIsZero()) && (checkIfStartMinLessThanTen() && !checkIfStartMinIsZero())){  //if the user enters values lower than 10 and not 0 for both hours and minutes. Ex: entered 3 for hrs and 2 for mins. Displays as 03:02
+            System.out.println("Start time is " + "0" + getStartHour() + ":" + "0" + getStartMinute());
+        }
+        else if (validTimeOfDayEnteredNoEnd(startHour, startMinute) && checkIfStartMinIsZero()) {   //When the user enters just num 0 as for minutes, this makes it display as hh:00
             System.out.println("Start time is " + getStartHour() + ":" + getStartMinute() + "0");
         }
-        else if(validTimeOfDayEnteredNoEnd(startHour, startMinute)){
+        else if(validTimeOfDayEnteredNoEnd(startHour, startMinute) && checkIfStartMinLessThanTen() && !checkIfStartMinIsZero()){     //This case is when the user entered 3 as for minutes and it makes it display as hh:03
+            System.out.println("Start time is " + getStartHour() + ":" + "0" + getStartMinute());
+        }
+        else if(validTimeOfDayEnteredNoEnd(startHour, startMinute) && checkIfStartHrIsZero()){  //This is the case when the user enters 0 for hour, which this method makes it display as 00:mm
+            System.out.println("Start time is " + getStartHour() + "0" + ":" + getStartMinute());
+        }
+        else if(validTimeOfDayEnteredNoEnd(startHour, startMinute) && checkIfStartHrLessThanTen() && !checkIfStartHrIsZero()){    //This case if the user enters 3 for example for hour, this makes it display as 03:mm
+            System.out.println("Start time is " + "0" + getStartHour() + ":" + getStartMinute());
+        }
+        else if(validTimeOfDayEnteredNoEnd(startHour, startMinute)){    //When the user entered everything right
             System.out.println("Start time is " + getStartHour() + ":" + getStartMinute());
         }
+        else{
+            System.out.println("Error displaying the task time!");
+        }
     }
+
+    private boolean checkIfStartHrLessThanTen(){
+        return startHour < 10;
+    }
+    private boolean checkIfStartHrIsZero(){
+        return startHour == 0;
+    }
+    private boolean checkIfStartMinLessThanTen(){
+        return startMinute < 10;
+    }
+    private boolean checkIfStartMinIsZero(){
+        return startMinute == 0;
+    }
+
+
     public void displayTaskName(){
         System.out.println(getTaskName());
     }
